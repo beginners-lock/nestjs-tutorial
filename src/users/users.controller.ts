@@ -1,5 +1,6 @@
 // eslint-disable-next-line prettier/prettier
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
+import type { User } from './user.type';
 
 @Controller('users')
 export class UsersController {
@@ -21,19 +22,19 @@ export class UsersController {
 
   // POST /users
   @Post()
-  createUser(@Body() user: Record<string, any>) {
+  createUser(@Body() user: Omit<User, 'id'>) {
     return user;
   }
 
   // PATCH /users/:id
   @Patch(':id')
-  editUserData(@Param('id') id: string, @Body() user: Record<string, any>) {
+  editUserData(@Param('id') id: string, @Body() user: Partial<User>) {
     return { id, ...user };
   }
 
   // PUT /users/:id
   @Put(':id')
-  changeUserData(@Param('id') id: string, @Body() user: Record<string, any>) {
+  changeUserData(@Param('id') id: string, @Body() user: Omit<User, 'id'>) {
     return { id, ...user };
   }
 
