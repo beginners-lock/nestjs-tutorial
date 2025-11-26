@@ -25,7 +25,11 @@ export class UsersService {
   ];
 
   findAll(role?: 'ADMIN' | 'USER') {
-    return this.users.filter((user) => user.role === role);
+    if (role) {
+      return this.users.filter((user) => user.role === role);
+    }
+
+    return role;
   }
 
   findUserById(id: number) {
