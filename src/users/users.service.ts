@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { User } from './user.type';
+import type { User } from './users.type';
 
 @Injectable()
 export class UsersService {
@@ -26,9 +26,7 @@ export class UsersService {
 
   findAll(role?: 'ADMIN' | 'USER') {
     if (role) {
-      return this.users.filter(
-        (user) => user.role.toLowerCase() === role.toLowerCase(),
-      );
+      return this.users.filter((user) => user.role === role);
     }
 
     return this.users;
