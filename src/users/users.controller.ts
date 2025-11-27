@@ -1,9 +1,9 @@
 // eslint-disable-next-line prettier/prettier
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, ParseIntPipe, ValidationPipe, ParseEnumPipe, BadRequestException } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, ParseIntPipe, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto, Role, UserRoleDto } from './dto/create-user.dto';
+import { CreateUserDto, UserRoleDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ParseUppercasePipe } from './pipe/uppercase.pipe';
+import { ParseRolePipe } from './pipe/role.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -12,14 +12,7 @@ export class UsersController {
   // GET /users or /users?role=value
   @Get()
   findAll(
-    @Query(
-      'role',
-      new ParseEnumPipe(Role, {
-        exceptionFactory: () =>
-          new BadRequestException(`Validation failed (Invalid role provided)`),
-      }),
-      ParseUppercasePipe,
-    )
+    @Query('role', ParseRolePipe)
     role?: UserRoleDto['role'],
   ) {
     return this.usersService.findAll(role);
